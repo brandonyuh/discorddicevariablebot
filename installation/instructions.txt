@@ -1,5 +1,6 @@
 node-v12.18.1-x64.msi
 install_discordjs.bat
 install_nodemon.bat
-Use !setdb 12345 (replace 12345 with your database channel id)
-then run.bat
+4. Edit databaseChannelID to match yours OR Use !setdb 12345 (replace 12345 with your database channel id)
+5. Make an auth.json file with {"token":"AUTHCODE"}
+then run.batd
