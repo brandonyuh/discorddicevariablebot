@@ -3,7 +3,10 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const databaseChannelID = "723300080689348688";
 
+const maxStatLength = 30;
+
 const configPrefix = "!";
+
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -51,12 +54,14 @@ client.on('message', msg => {
 			resultText = ".\n";
 
 			if (!isNaN(split[split.length - 1])) {
+
 				value = split[split.length - 1];
 				for (var u = 0; u < users.length; u++) {
 					userText = "<@!" + users[u].id + ">";
 					var item = {};
 					resultText = resultText + userText + "\n";
 					for (var i = 0; i < split.length; i++) {
+						split[i] = split[i].substring(0, maxStatLength).toLowerCase();
 						if (split[i].match(/^[a-z]+$/i)) {
 							resultText = resultText + split[i] + "=" + value + "\n";
 							item[split[i].toLowerCase()] = value;
