@@ -104,7 +104,9 @@ client.on('message', msg => {
 
 		}
 		else {
+
 			for (var u = 0; u < users.length; u++) {
+
 				var resultArray = [];
 				var displayArray = [];
 				var negationArray = [];
@@ -119,80 +121,99 @@ client.on('message', msg => {
 					}
 					else if (split[i] == "-") {
 						displayArray[i] = "-";
-						negationArray[i + 1] = 1;
+						negationArray[i] = 1;
 					}
 
-
-
-					for (var i = 0; i < displayArray.length; i++) {
-						if (typeof displayArray[i] != 'undefined') {
-
+					if (split[i].match(/^\d*[dD]\d+(\S)*$/)) {
+						displayArray[i] = split[i].toLowerCase() + " = ";
+						var dice = split[i];
+						var numDice = 1;
+						var dIndex = dice.indexOf("d");
+						if (dIndex != 0) {
+							numDice = parseInt(dice.substring(0, dIndex));
 						}
+						var keepDice = numDice;
+						var keepHigher = true;
+
+						var endDiceIndex = dIndex + 1;
+						var diceType = 20;
+
+						while (endDiceIndex < dice.length && dice.charAt(endDiceIndex).match(/[0-9]/)) {
+							endDiceIndex = endDiceIndex + 1;
+						}
+						diceType = parseInt(dice.substring(dIndex + 1, endDiceIndex));
+
+						var options = dice.substring(endDiceIndex);
+						if (options != "") {
+							if (options.indexOf("k") != -1 || options.indexOf("K") != -1) {
+								endOfDiceNumber = parseInt(options.match(/\d+$/));
+								if (endOfDiceNumber < keepDice && endOfDiceNumber >= 0) {
+									keepDice = endOfDiceNumber;
+								}
+							} else {
+								keepDice = 1;
+							}
+							if (options.indexOf("l") != -1 || options.indexOf("L") != -1) {
+								keepHigher = false;
+							}
+						}
+
+						var diceArray = []
+						for (var d = 0; d < numDice; d++) {
+							diceArray[d] = Math.ceil(Math.random() * diceType);
+						}
+
+						if (keepDice < numDice) {
+							diceArray = diceArray.sort(function (a, b) { return a - b });
+							if (keepHigher) {
+								diceArray = diceArray.reverse();
+							}
+						}
+
+						var total = 0;
+						if (numDice > 1) {
+							for (var d = 0; d < numDice; d++) {
+								if (d < keepDice) {
+									displayArray[i] = displayArray[i] + diceArray[d];
+									total = total + diceArray[d];
+								} else {
+									displayArray[i] = displayArray[i] + "~~" + diceArray[d] + "~~" + " 0";
+								}
+								if (d != numDice - 1) {
+									displayArray[i] = displayArray[i] + " + ";
+								} else {
+									displayArray[i] = displayArray[i] + " ";
+								}
+							}
+							displayArray[i] = displayArray[i] + "= " + total;
+
+						} else if (numDice == 1) {
+							total = diceArray[0];
+							displayArray[i] = displayArray[i] + total;
+						} else {
+							total = 0;
+							displayArray[i] = displayArray[i] + total;
+						}
+						displayArray[i] = "(" + displayArray[i] + ")";
+						resultArray[i] = total;
+
 					}
-
-
 				}
-
 				var display = "<@!" + user.id + "> ";
 				for (var i = 0; i < displayArray.length; i++) {
 					if (typeof displayArray[i] != 'undefined') {
 						display = display + displayArray[i] + " ";
 					}
 				}
-
-
 				msg.channel.send(display);
-
-
-
 
 			}
 		}
-		//databaseChannel.send(messages.array().length + "");
-		/*
-		for (var m = 0; m < messages.array().length; m++) {
-			databaseChannel.send(messages.array()[m].content);
-		}
-		*/
-		/*
-		databaseChannel.messages.fetch({ limit: 100 })
-			.then(messages => {
-				//databaseChannel.send(messages.size + "");
-				messageArray = messages.array();
-				for (var m = 0; m < messages.array().length; m++) {
-					msg.channel.send(messages.array()[m].content);
-				}
-			})
-			.catch(console.error);
-			*/
-
-		//databaseChannel.send(text);
-		//msg.channel.send(text);
-		//databaseChannel.channel.send(text);
-		/*
-		if (getUserFromMention(text)) {
-
-			msg.channel.send("<@!" + getUserFromMention(text).id + ">")
-		} else {
-			msg.channel.send("no user found");
-		}
-		*/
-	}
-
-	if (msg.content === '!1d20') {
-		result = Math.ceil(Math.random() * 20);
-		msg.reply(result);
-		user = msg.author.username
-		msg.channel.send(msg.author.tag + "");
-		msg.channel.send(client.user.tag + "");
 	}
 });
 
 
 
-function findInDatabase(key) {
-
-}
 
 function getUserFromMention(mention) {
 	if (!mention) return;
