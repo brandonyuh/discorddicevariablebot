@@ -24,11 +24,10 @@ client.on('message', msg => {
 	var users = [];
 
 	if (client.user != author) {
-
-		text = text.replace(">", "> ");
-		text = text.replace("+", " + ");
-		text = text.replace("=", " = ");
-		text = text.replace("-", " - ");
+		text = text.split(">").join("> ");
+		text = text.split("+").join(" + ");
+		text = text.split("=").join(" = ");
+		text = text.split("-").join(" - ");
 
 		const split = text.split(/ +/);
 		for (var i = 0; i < split.length; i++) {
@@ -128,6 +127,13 @@ client.on('message', msg => {
 								negationArray[i] = true;
 							}
 
+							else if (split[i].match(/^[0-9]+$/)) {
+								displayArray[i] = split[i];
+								resultArray[i] = parseInt(split[i]);
+
+							}
+
+
 							if (split[i].match(/^\d*[dD]\d+(\S)*$/)) {
 								diceExists = true;
 								displayArray[i] = split[i].toLowerCase() + " = ";
@@ -209,7 +215,9 @@ client.on('message', msg => {
 								for (var i = 0; i < displayArray.length; i++) {
 
 									stat = displayArray[i];
+
 									if (typeof stat != 'undefined' && stat.match(/^[a-z]+$/i)) {
+										msg.channel.send("preparing to dump" + stat);
 										if (statsjson[stat]) {
 											resultArray[i] = statsjson[stat];
 										} else {
@@ -221,6 +229,7 @@ client.on('message', msg => {
 								break;
 							}
 						}
+
 						var display = key;
 						var total = 0;
 						for (var i = 0; i < displayArray.length; i++) {
