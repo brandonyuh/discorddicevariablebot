@@ -87,6 +87,14 @@ client.on('message', msg => {
 									Object.keys(statsjson).forEach(statKey => mergejson[statKey] = statsjson[statKey]);
 									Object.keys(tempJson[key]).forEach(statKey => mergejson[statKey] = tempJson[key][statKey]);
 									var wrapjson = {};
+									for (var stat in mergejson) {
+										if (mergejson.hasOwnProperty(stat)) {
+											if (mergejson[stat] == 0) {
+												delete mergejson[stat];
+											}
+										}
+									}
+
 									wrapjson[key] = mergejson;
 									messages.array()[m].edit(JSON.stringify(wrapjson, undefined, 1));
 									break;
@@ -132,7 +140,6 @@ client.on('message', msg => {
 								resultArray[i] = parseInt(split[i]);
 
 							}
-
 
 							if (split[i].match(/^\d*[dD]\d+(\S)*$/)) {
 								diceExists = true;
@@ -217,7 +224,6 @@ client.on('message', msg => {
 									stat = displayArray[i];
 
 									if (typeof stat != 'undefined' && stat.match(/^[a-z]+$/i)) {
-										msg.channel.send("preparing to dump" + stat);
 										if (statsjson[stat]) {
 											resultArray[i] = statsjson[stat];
 										} else {
