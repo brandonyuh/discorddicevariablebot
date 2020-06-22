@@ -19,7 +19,7 @@ client.on('message', msg => {
 
 	//if (!msg.content.startsWith(configPrefix)) return;	
 	//text = text.slice(configPrefixLength)
-
+	text = " " + text;
 	author = msg.author;
 	//user = author;
 	var users = [];
@@ -41,14 +41,14 @@ client.on('message', msg => {
 		if (users.length == 0) {
 			users.push(author);
 		}
-
-		if (text.search('=') != -1) {
+		if (text.search('setdb') != -1) {
+			if (!isNaN(split[split.length - 1])) {
+				databaseChannelID = split[split.length - 1];
+			}
+		}
+		else if (text.search('=') != -1) {
 			var jsonStore = {};
 
-			//var item = {};
-			//item["title"] = "my title";
-			//item["length"] = 4;
-			//jsonStore["Brandon"] = item;
 			value = 0;
 			resultText = ".\n";
 
@@ -75,36 +75,24 @@ client.on('message', msg => {
 				if (jsonStore.hasOwnProperty(key)) {
 					var tempJson = {};
 					tempJson[key] = jsonStore[key];
-					//databaseChannel.send(JSON.stringify(tempJson, undefined, 1));
-					//findInDatabase(key);
 
 					databaseChannel.messages.fetch({ limit: 100 })
 						.then(messages => {
-							//databaseChannel.send(messages.size + "");
-
 							messageArray = messages.array();
 							var foundUserDB = false;
 							for (var m = 0; m < messages.array().length; m++) {
-								//msg.channel.send(messages.array()[m].content);
 								messagejson = JSON.parse(messages.array()[m].content);
-
 								statsjson = messagejson[key];
 								if (statsjson != null) {
 									foundUserDB = true;
-									//msg.channel.send(JSON.stringify(tempJson[key], undefined, 4));
 									mergejson = {};
 									Object.keys(statsjson).forEach(statKey => mergejson[statKey] = statsjson[statKey]);
 									Object.keys(tempJson[key]).forEach(statKey => mergejson[statKey] = tempJson[key][statKey]);
-									//msg.channel.send("Merge!");
 									var wrapjson = {};
 									wrapjson[key] = mergejson;
-									//msg.channel.send(JSON.stringify(wrapjson, undefined, 1));
 									messages.array()[m].edit(JSON.stringify(wrapjson, undefined, 1));
 									break;
 								}
-
-
-
 							}
 							if (!foundUserDB) {
 								databaseChannel.send(JSON.stringify(tempJson, undefined, 1));
@@ -114,13 +102,52 @@ client.on('message', msg => {
 				}
 			}
 
-
-
-			//databaseChannel.send(JSON.stringify(jsonStore, undefined, 1));
-
 		}
+		else {
+			for (var u = 0; u < users.length; u++) {
+				var resultArray = [];
+				var displayArray = [];
+				var negationArray = [];
+				var user = users[u];
+
+				for (var i = 0; i < split.length; i++) {
+					if (split[i].match(/^[a-z]+$/i)) {
+						displayArray[i] = split[i].toLowerCase();
+					}
+					else if (split[i] == "+") {
+						displayArray[i] = "+";
+					}
+					else if (split[i] == "-") {
+						displayArray[i] = "-";
+						negationArray[i + 1] = 1;
+					}
 
 
+
+					for (var i = 0; i < displayArray.length; i++) {
+						if (typeof displayArray[i] != 'undefined') {
+
+						}
+					}
+
+
+				}
+
+				var display = "<@!" + user.id + "> ";
+				for (var i = 0; i < displayArray.length; i++) {
+					if (typeof displayArray[i] != 'undefined') {
+						display = display + displayArray[i] + " ";
+					}
+				}
+
+
+				msg.channel.send(display);
+
+
+
+
+			}
+		}
 		//databaseChannel.send(messages.array().length + "");
 		/*
 		for (var m = 0; m < messages.array().length; m++) {
@@ -140,14 +167,16 @@ client.on('message', msg => {
 			*/
 
 		//databaseChannel.send(text);
-		msg.channel.send(text);
+		//msg.channel.send(text);
 		//databaseChannel.channel.send(text);
+		/*
 		if (getUserFromMention(text)) {
 
 			msg.channel.send("<@!" + getUserFromMention(text).id + ">")
 		} else {
 			msg.channel.send("no user found");
 		}
+		*/
 	}
 
 	if (msg.content === '!1d20') {
