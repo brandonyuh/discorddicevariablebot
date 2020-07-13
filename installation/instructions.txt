@@ -1,6 +1,7 @@
-node-v12.18.1-x64.msi
-install_discordjs.bat
-install_nodemon.bat
-4. Edit databaseChannelID to match yours OR Use !setdb 12345 (replace 12345 with your database channel id)
-5. Make an auth.json file with {"token":"AUTHCODE"}
-then run.batd
+install node-v12.18.1-x64.msi
+Open command line, navigate to folder with index.js and run following two commands:
+npm install discord.js
+npm i -g nodemon
+Edit databaseChannelID to match yours OR Use !setdb 12345 (replace 12345 with your database channel id)
+Make an auth.json file with {"token":"AUTHCODE"}
+then run.bat
