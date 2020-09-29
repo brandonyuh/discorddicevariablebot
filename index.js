@@ -2,6 +2,7 @@ const auth = require('./auth.json');//make your own auth.json with {"token":"AUT
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const databaseChannelID = "723300080689348688";
+//const databaseChannelID = "723282802493095997";
 
 const maxStatLength = 30;
 
@@ -23,7 +24,7 @@ client.on('message', msg => {
 	text = text.slice(configPrefix.length)
 	text = " " + text;
 	author = msg.author;
-	//user = author;
+
 	var users = [];
 
 	if (client.user != author) {
@@ -56,6 +57,11 @@ client.on('message', msg => {
 			if (!isNaN(split[split.length - 1])) {
 
 				value = split[split.length - 1];
+
+				if (text.search('-') != -1) {
+					value = -value;
+				}
+
 				for (var u = 0; u < users.length; u++) {
 					userText = "<@!" + users[u].id + ">";
 					var item = {};
