@@ -133,8 +133,9 @@ client.on('message', msg => {
                         for (var i = 0; i < split.length; i++) {
                             resultArray[i] = 0;
                             negationArray[i] = false;
-                            if (split[i].match(/^[a-z]+$/i)) {
+                            if (split[i].match(/^[A-Z]+$/i)) {
                                 displayArray[i] = split[i].toLowerCase();
+                                split[i] = split[i].toLowerCase();
                             } else if (split[i] == "+") {
                                 displayArray[i] = "+";
                             } else if (split[i] == "-") {
