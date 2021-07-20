@@ -154,7 +154,7 @@ client.on('message', msg => {
                                 resultArray[i] = result;
                             }
 
-                            if (split[i] == "ar") {
+                            if (split[i] == "ar" || split[i] == "ra") {
                                 diceExists = true;
                                 var result1 = Math.ceil(Math.random() * 20);
                                 var result2 = Math.ceil(Math.random() * 20);
@@ -168,7 +168,7 @@ client.on('message', msg => {
                                 resultArray[i] = result1;
                             }
 
-                            if (split[i] == "dr") {
+                            if (split[i] == "dr" || split[i] == "rd") {
                                 diceExists = true;
                                 var result1 = Math.ceil(Math.random() * 20);
                                 var result2 = Math.ceil(Math.random() * 20);
@@ -269,7 +269,7 @@ client.on('message', msg => {
                                     stat = displayArray[i];
 
                                     if (typeof stat != 'undefined' && stat.match(/^[a-z]+$/i)) {
-                                        if (stat != "r" && stat != "ar" && stat != "dr") {
+                                        if (stat != "r" && stat != "ar" && stat != "ra" && stat != "dr" && stat != "rd") {
                                             if (statsjson[stat]) {
                                                 resultArray[i] = statsjson[stat];
                                             } else {
