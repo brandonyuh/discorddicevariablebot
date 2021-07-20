@@ -146,6 +146,43 @@ client.on('message', msg => {
 
                             }
 
+                            if (split[i] == "r") {
+                                diceExists = true;
+                                var result = Math.ceil(Math.random() * 20);
+                                displayArray[i] = "d20 = " + result;
+                                displayArray[i] = "(" + displayArray[i] + ")";
+                                resultArray[i] = result;
+                            }
+
+                            if (split[i] == "ar") {
+                                diceExists = true;
+                                var result1 = Math.ceil(Math.random() * 20);
+                                var result2 = Math.ceil(Math.random() * 20);
+                                if (result2 > result1) {
+                                    var tempResult = result1;
+                                    result1 = result2;
+                                    result2 = temp;
+                                }
+                                displayArray[i] = "d20 = " + result1 + " + ~~" + result2 + "~~ 0";
+                                displayArray[i] = "(" + displayArray[i] + ")";
+                                resultArray[i] = result1;
+                            }
+
+                            if (split[i] == "dr") {
+                                diceExists = true;
+                                var result1 = Math.ceil(Math.random() * 20);
+                                var result2 = Math.ceil(Math.random() * 20);
+                                if (result2 < result1) {
+                                    var tempResult = result1;
+                                    result1 = result2;
+                                    result2 = temp;
+                                }
+                                displayArray[i] = "d20 = " + result1 + " + ~~" + result2 + "~~ 0";
+                                displayArray[i] = "(" + displayArray[i] + ")";
+                                resultArray[i] = result1;
+                            }
+
+
                             if (split[i].match(/^\d*[dD]\d+(\S)*$/)) {
                                 diceExists = true;
                                 displayArray[i] = split[i].toLowerCase() + " = ";
@@ -232,12 +269,14 @@ client.on('message', msg => {
                                     stat = displayArray[i];
 
                                     if (typeof stat != 'undefined' && stat.match(/^[a-z]+$/i)) {
-                                        if (statsjson[stat]) {
-                                            resultArray[i] = statsjson[stat];
-                                        } else {
-                                            resultArray[i] = 0;
+                                        if (stat != "r" && stat != "ar" && stat != "dr") {
+                                            if (statsjson[stat]) {
+                                                resultArray[i] = statsjson[stat];
+                                            } else {
+                                                resultArray[i] = 0;
+                                            }
+                                            displayArray[i] = "(" + displayArray[i] + " = " + resultArray[i] + ")";
                                         }
-                                        displayArray[i] = "(" + displayArray[i] + " = " + resultArray[i] + ")";
                                     }
                                 }
                                 break;
