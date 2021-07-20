@@ -152,6 +152,9 @@ client.on('message', msg => {
                                 var dice = split[i];
                                 var numDice = 1;
                                 var dIndex = dice.indexOf("d");
+                                if (dIndex == -1) {
+                                    dIndex = dice.indexOf("D");
+                                }
                                 if (dIndex != 0) {
                                     numDice = parseInt(dice.substring(0, dIndex));
                                 }
