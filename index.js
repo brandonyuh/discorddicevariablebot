@@ -164,7 +164,7 @@ client.on('message', msg => {
                                     result1 = result2;
                                     result2 = temp;
                                 }
-                                displayArray[i] = "d20 = " + result1 + " + ~~" + result2 + "~~ 0";
+                                displayArray[i] = "2d20h = " + result1 + " + ~~" + result2 + "~~ 0";
                                 displayArray[i] = "(" + displayArray[i] + ")";
                                 resultArray[i] = result1;
                             }
@@ -178,7 +178,7 @@ client.on('message', msg => {
                                     result1 = result2;
                                     result2 = temp;
                                 }
-                                displayArray[i] = "d20 = " + result1 + " + ~~" + result2 + "~~ 0";
+                                displayArray[i] = "2d20l = " + result1 + " + ~~" + result2 + "~~ 0";
                                 displayArray[i] = "(" + displayArray[i] + ")";
                                 resultArray[i] = result1;
                             }
