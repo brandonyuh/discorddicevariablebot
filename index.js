@@ -155,28 +155,28 @@ client.on('message', msg => {
                                 resultArray[i] = result;
                             }
 
-                            if (split[i] == "ar" || split[i] == "ra") {
+                            if (split[i] == "ar" || split[i] == "ra" || split[i] == "a") {
                                 diceExists = true;
                                 var result1 = Math.ceil(Math.random() * 20);
                                 var result2 = Math.ceil(Math.random() * 20);
                                 if (result2 > result1) {
                                     var tempResult = result1;
                                     result1 = result2;
-                                    result2 = temp;
+                                    result2 = tempResult;
                                 }
                                 displayArray[i] = "2d20h = " + result1 + " + ~~" + result2 + "~~ 0";
                                 displayArray[i] = "(" + displayArray[i] + ")";
                                 resultArray[i] = result1;
                             }
 
-                            if (split[i] == "dr" || split[i] == "rd") {
+                            if (split[i] == "dr" || split[i] == "rd" || split[i] == "d") {
                                 diceExists = true;
                                 var result1 = Math.ceil(Math.random() * 20);
                                 var result2 = Math.ceil(Math.random() * 20);
                                 if (result2 < result1) {
                                     var tempResult = result1;
                                     result1 = result2;
-                                    result2 = temp;
+                                    result2 = tempResult;
                                 }
                                 displayArray[i] = "2d20l = " + result1 + " + ~~" + result2 + "~~ 0";
                                 displayArray[i] = "(" + displayArray[i] + ")";
